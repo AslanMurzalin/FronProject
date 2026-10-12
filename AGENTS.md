@@ -15,12 +15,13 @@ Commands
 
 ## Rules
 
-1. **One Task at a Time:** Tasks are GitHub issues ([Issues Tracker](https://github.com/AslanMurzalin/FronProject/issues)). Work on strictly one issue at a time in numerical/dependency order.
+1. **One Task at a Time:** Tasks are GitHub issues ([Issues Tracker](https://github.com/AslanMurzalin/FronProject/issues)). Work on and groom strictly one issue at a time in numerical/dependency order. Never groom or implement issues all together in bulk.
 2. **Review Criteria Before & After:** Always read the acceptance criteria before starting work on an issue, and re-read every bullet point before closing it.
 3. **No Unapproved Dependencies:** Dependencies are pinned in `pyproject.toml` / `requirements.txt`. Do not add any new library or package without explicit user confirmation.
 4. **Zero-Retention Demo Storage:** Demo files (`.dem`, `.dem.zst`) must never be stored long-term. Temporary files in `var/scratch_demos/` must be unlinked in a `finally` block on both success and failure.
 5. **Facts vs. Interpretations:** All tactical analysis logic, report schemas, and UI components must strictly separate objective factual events (e.g. death timestamps, distances, zone presence) from tactical interpretations.
 6. **Commit Regularly:** Make focused, conventional commits referencing the issue number (e.g. `feat(parser): add round boundary filter (#14)`).
+7. **Push Only When Asked:** Do not push commits to the remote repository automatically. Only run `git push` when explicitly requested by the user.
 
 ## Core Documents
 
@@ -31,6 +32,6 @@ All detailed specifications live in the `docs/` folder:
 - [`docs/plan.md`](docs/plan.md) — Product specification, MVP scope boundaries, and analysis guardrails.
 - [`docs/architecture.md`](docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
 - [`docs/tasks.md`](docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.
-- [`docs/team/pm.md`](docs/team/pm.md) — Product Manager role: groom raw issues into full issue-flow spec before implementation.
+- [`docs/team/pm.md`](docs/team/pm.md) — Product Manager role: groom raw issues one by one (never all together in bulk) into full issue-flow spec before implementation.
 - [`docs/team/software-engineer.md`](docs/team/software-engineer.md) — Software Engineer role: implement one groomed issue at a time, write tests, commit, leave issue open.
 - [`docs/team/qa.md`](docs/team/qa.md) — QA Engineer role: verify finished work against acceptance criteria, post PASS/FAIL verdict as a comment.
