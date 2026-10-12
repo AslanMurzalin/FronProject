@@ -2,6 +2,12 @@
 
 This document sets the ground rules for how engineering work is organized, executed, and validated in this repository.
 
+Roles
+
+- PM - grooms a task one by one before anyone implements it, follows docs/team/pm.md
+- Engineer - implements one groomed task, follows docs/team/software-engineer.md
+- QA - checks the result against the acceptance criteria, follows docs/team/qa.md
+
 ## Core Rules
 
 - **Tasks are GitHub issues, one at a time.** Never implement multiple issues in a single batch. Keep each pull request or commit series scoped strictly to one issue number.
