@@ -21,7 +21,29 @@ Commands
 4. **Zero-Retention Demo Storage:** Demo files (`.dem`, `.dem.zst`) must never be stored long-term. Temporary files in `var/scratch_demos/` must be unlinked in a `finally` block on both success and failure.
 5. **Facts vs. Interpretations:** All tactical analysis logic, report schemas, and UI components must strictly separate objective factual events (e.g. death timestamps, distances, zone presence) from tactical interpretations.
 6. **Commit Regularly:** Make focused, conventional commits referencing the issue number (e.g. `feat(parser): add round boundary filter (#14)`).
-7. **Push Only When Asked:** Do not push commits to the remote repository automatically. Only run `git push` when explicitly requested by the user.
+7. **Push Only When Asked / After QA:** Do not push intermediate commits to the remote repository automatically. Only run `git push` after QA verification passes.
+
+## Issue Implementation Lifecycle
+
+Every issue must follow this exact sequential lifecycle:
+
+1. **Software Engineer Phase:**
+   - Read the issue specification (`Goal`, `Acceptance Criteria`, `Done Means`, `Constraints`).
+   - Implement minimal necessary code and write tests for all acceptance criteria.
+   - Run tests: `.venv\Scripts\pytest.exe` (or `npm test` for frontend) and verify full suite passes.
+   - Commit changes referencing the issue (e.g. `feat(parser): add real-demo parser spike (#2)`).
+   - Post an implementation summary comment on the GitHub issue. **Leave the issue open.**
+
+2. **QA Engineer Phase:**
+   - Review code against each acceptance criterion.
+   - Run test suite and inspect coverage.
+   - Post verdict comment on GitHub issue: `## QA: PASS` (or `## QA: FAIL`), checking off criteria and listing test results.
+
+3. **Closure & Push Phase:**
+   - If and only if QA verdict is `PASS`:
+     - Close the GitHub issue.
+     - Push commits to `origin/main`.
+   - If `FAIL`: Software Engineer fixes issues, and QA re-verifies.
 
 ## Core Documents
 
