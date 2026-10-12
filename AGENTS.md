@@ -32,3 +32,5 @@ All detailed specifications live in the `docs/` folder:
 - [`docs/architecture.md`](docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
 - [`docs/tasks.md`](docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.
 - [`docs/team/pm.md`](docs/team/pm.md) — Product Manager role: groom raw issues into full issue-flow spec before implementation.
+- [`docs/team/software-engineer.md`](docs/team/software-engineer.md) — Software Engineer role: implement one groomed issue at a time, write tests, commit, leave issue open.
+- [`docs/team/qa.md`](docs/team/qa.md) — QA Engineer role: verify finished work against acceptance criteria, post PASS/FAIL verdict as a comment.
