@@ -21,7 +21,6 @@ Commands
 4. **Zero-Retention Demo Storage:** Demo files (`.dem`, `.dem.zst`) must never be stored long-term. Temporary files in `var/scratch_demos/` must be unlinked in a `finally` block on both success and failure.
 5. **Facts vs. Interpretations:** All tactical analysis logic, report schemas, and UI components must strictly separate objective factual events (e.g. death timestamps, distances, zone presence) from tactical interpretations.
 6. **Commit Regularly:** Make focused, conventional commits referencing the issue number (e.g. `feat(parser): add round boundary filter (#14)`).
-7. do not push every move , push if only i ask
 
 ## Core Documents
 
@@ -32,3 +31,4 @@ All detailed specifications live in the `docs/` folder:
 - [`docs/plan.md`](docs/plan.md) — Product specification, MVP scope boundaries, and analysis guardrails.
 - [`docs/architecture.md`](docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
 - [`docs/tasks.md`](docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.
+- [`docs/team/pm.md`](docs/team/pm.md) — Product Manager role: groom raw issues into full issue-flow spec before implementation.
