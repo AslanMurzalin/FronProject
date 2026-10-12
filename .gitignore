@@ -1,0 +1,25 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local data & Scratch
+var/
+*.dem
+*.dem.zst
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+Desktop.ini
