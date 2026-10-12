@@ -1,22 +1,8 @@
-# Agent Guidelines & Project Context
 
-Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence-first tactical analysis tool that analyzes CS2 player behavior on T-side Mirage from match demos (`.dem` / `.dem.zst`).
-
-## Project Context & Architecture
-
-- **Goal:** Help users review a selected player's T-side behavior in a FACEIT demo to judge whether recurring patterns indicate baiting.
-- **Core Principle:** Evidence-first. Separate **observed facts** from **tactical interpretations**. Never state that a player is definitively baiting; provide confidence ratings and transparent, timestamped evidence.
-- **Technology Stack:**
-  - **Backend:** Python 3.12+ / FastAPI, SQLAlchemy 2.0 with SQLite (WAL mode, `busy_timeout = 5000`), Pydantic v2.
-  - **Demo Parser & Data:** `demoparser2` (Rust-backed CS2 parser), `polars`, `numpy`, `zstandard`.
-  - **Worker Queue:** Dedicated worker process pool with heartbeat tracking and startup recovery.
-  - **PDF Engine:** Pure-Python ReportLab with embedded DejaVu Sans Unicode font.
-  - **Frontend:** React 19, TypeScript, Vite, Tailwind CSS, Lucide icons.
-
-## Commands
+Commands
 
 ### Backend Commands
-- `pip install -r requirements.txt` or `uv sync` — install Python dependencies
+- `pip install -r requirements.txt` or  — install Python dependencies
 - `pytest` or `uv run pytest` — run the entire test suite
 - `pytest backend/tests/test_smoke.py` or `uv run pytest backend/tests/test_smoke.py` — run one specific test file
 - `uvicorn backend.app.main:app --reload` — start the FastAPI development server
@@ -35,6 +21,7 @@ Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence
 4. **Zero-Retention Demo Storage:** Demo files (`.dem`, `.dem.zst`) must never be stored long-term. Temporary files in `var/scratch_demos/` must be unlinked in a `finally` block on both success and failure.
 5. **Facts vs. Interpretations:** All tactical analysis logic, report schemas, and UI components must strictly separate objective factual events (e.g. death timestamps, distances, zone presence) from tactical interpretations.
 6. **Commit Regularly:** Make focused, conventional commits referencing the issue number (e.g. `feat(parser): add round boundary filter (#14)`).
+7. do not push every move , push if only i ask
 
 ## Core Documents
 
