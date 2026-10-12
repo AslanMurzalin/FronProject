@@ -1,10 +1,8 @@
 # CS2 FACEIT Baiting Analyzer — Development Tasks Backlog
 
-**Version:** 3.0  
-**Target Specification:** `docs/plan.md` and `docs/architecture.md` (v2.1)  
+**Version:** 3.0
+**Target Specification:** `docs/plan.md` and `docs/architecture.md` (v2.1)
 **Task Standard:** Each task is sized for a single working session and is independently actionable.
-
----
 
 ## 1. Project Scaffolding & Initial Smoke Test
 Goal: Set up the root project structure, Python virtual environment, dependencies configuration, and a passing smoke test.

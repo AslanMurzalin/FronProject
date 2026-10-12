@@ -2,8 +2,6 @@
 
 This document defines how tasks and issues are structured, interpreted, and executed in this project. It is modeled after production-grade, evidence-driven issue specifications.
 
----
-
 ## 1. Anatomy of a Standard Issue
 
 Every GitHub issue in this repository follows a rigorous structure to eliminate ambiguity before implementation begins:
@@ -35,8 +33,6 @@ Every GitHub issue in this repository follows a rigorous structure to eliminate 
 - Centralized utilities/predicates (e.g., permissions, error handlers) that must be imported rather than re-implemented inline.
 - Cross-references to decisions in `docs/architecture.md` and `docs/plan.md`.
 ```
-
----
 
 ## 2. Issue Lifecycle & Execution Flow
 

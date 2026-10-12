@@ -2,15 +2,11 @@
 
 This document sets the ground rules for how engineering work is organized, executed, and validated in this repository.
 
----
-
 ## Core Rules
 
 - **Tasks are GitHub issues, one at a time.** Never implement multiple issues in a single batch. Keep each pull request or commit series scoped strictly to one issue number.
 - **Read the acceptance criteria before starting and before closing.** The issue specification is the contract. Check every bullet point before writing code and re-verify every bullet before declaring an issue done.
 - **Commit regularly.** Make small, focused commits with clear conventional commit messages (e.g. `feat:`, `fix:`, `test:`, `docs:`, `refactor:`). Never bundle unrelated refactors into a task commit.
-
----
 
 ## Issue Execution Workflow
 
@@ -22,7 +18,7 @@ This document sets the ground rules for how engineering work is organized, execu
    ```bash
    # Run full test suite
    pytest
-   
+
    # Run specific test file
    pytest backend/tests/test_<name>.py
    ```

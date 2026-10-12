@@ -1,13 +1,11 @@
 # CS2 FACEIT Baiting Analyzer — Technical Architecture
 
-**Document Version:** 2.1 (Production-Ready Technical Blueprint)  
-**Target Product Scope:** `docs/plan.md` (v0.2 with Architecture 2.1 refinements)  
-**Selected Architecture Option:** Option 1 — Decoupled Full-Stack (FastAPI + React / TypeScript)  
-**Database:** SQLite with Write-Ahead Logging (WAL) and `busy_timeout = 5000`  
-**Session & Auth Strategy:** httpOnly Cookie-based Sessions backed by a persistent `SESSIONS` table  
+**Document Version:** 2.1 (Production-Ready Technical Blueprint)
+**Target Product Scope:** `docs/plan.md` (v0.2 with Architecture 2.1 refinements)
+**Selected Architecture Option:** Option 1 — Decoupled Full-Stack (FastAPI + React / TypeScript)
+**Database:** SQLite with Write-Ahead Logging (WAL) and `busy_timeout = 5000`
+**Session & Auth Strategy:** httpOnly Cookie-based Sessions backed by a persistent `SESSIONS` table
 **PDF Engine:** ReportLab (Pure Python, zero external GTK/C library dependencies on Windows)
-
----
 
 ## 1. System Overview
 
@@ -55,8 +53,6 @@ flowchart TD
     Cleanup -.->|Unlink .zst and .dem; null paths in DB| ScratchDisk
 ```
 
----
-
 ## 2. Technology Stack & Key Decisions
 
 | Layer | Chosen Technology | Architecture Decisions & Rationale |
@@ -69,8 +65,6 @@ flowchart TD
 | **Worker Engine** | **Dedicated Worker Process Pool + Heartbeat** | Separate process pool capped at 1–2 concurrent jobs. Worker tracks periodic heartbeat timestamps; API never kills healthy running jobs. |
 | **PDF Generation** | **ReportLab** | Selected as the single PDF engine. Pure Python, deterministic layout, zero external GTK/Pango dependencies on Windows, no headless browser overhead. |
 | **Frontend UI** | **React 19 + TypeScript + Vite + Tailwind CSS** | Clean dark-mode tactical dashboard with responsive evidence filtering and charts. |
-
----
 
 ## 3. High-Level Directory Structure
 
@@ -141,8 +135,6 @@ FronProject/
     ├── tsconfig.json
     └── vite.config.ts
 ```
-
----
 
 ## 4. Database Schema & Data Models
 
@@ -241,8 +233,6 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.close()
 ```
 
----
-
 ## 5. Tactical Analysis Engine & Heuristics
 
 ### 5.1 Mirage Zone Graph: 15 Connected Tactical Zones
@@ -310,8 +300,6 @@ Where:
   3. Demo file is corrupted or unreadable.
 * Otherwise, the job completes successfully, noting skipped rounds in the header.
 
----
-
 ## 6. Score Design & Missing Data Handling
 
 ### 6.1 Sub-Signal Definitions & Bounds
@@ -347,8 +335,6 @@ Because $S_{\text{death}}$ is almost always active, the low-evidence guardrail s
   * `insufficient_evidence: true` is set.
   * A prominent alert banner is rendered in the UI and exports stating that insufficient evidence exists to evaluate player patterns.
 
----
-
 ## 7. Storage, Worker Engine & Quota Protection
 
 ### 7.1 Dedicated Worker Process & Heartbeat Recovery
@@ -375,8 +361,6 @@ Because $S_{\text{death}}$ is almost always active, the low-evidence guardrail s
 ### 7.3 Rate Limiting & Reverse Proxy Support
 * API rate limiting uses `slowapi` with trusted proxy headers (`X-Forwarded-For`), configured with `forwarded_allow_ips = ["127.0.0.1"]` (or CIDR blocks).
 * Max 5 uploads per minute per IP; max 10 completed demo analyses per user per day.
-
----
 
 ## 8. API Specification
 
@@ -446,8 +430,6 @@ Because $S_{\text{death}}$ is almost always active, the low-evidence guardrail s
 * `GET /api/reports/{id}` — Fetch full report JSON.
 * `GET /api/reports/{id}/export/json` — Export report as JSON file.
 * `GET /api/reports/{id}/export/pdf` — Export report as PDF using ReportLab with mandatory disclaimers and version stamps.
-
----
 
 ## 9. Phased Implementation Roadmap
 

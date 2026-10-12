@@ -2,8 +2,6 @@
 
 Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence-first tactical analysis tool that analyzes CS2 player behavior on T-side Mirage from match demos (`.dem` / `.dem.zst`).
 
----
-
 ## Project Context & Architecture
 
 - **Goal:** Help users review a selected player's T-side behavior in a FACEIT demo to judge whether recurring patterns indicate baiting.
@@ -14,8 +12,6 @@ Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence
   - **Worker Queue:** Dedicated worker process pool with heartbeat tracking and startup recovery.
   - **PDF Engine:** Pure-Python ReportLab with embedded DejaVu Sans Unicode font.
   - **Frontend:** React 19, TypeScript, Vite, Tailwind CSS, Lucide icons.
-
----
 
 ## Commands
 
@@ -31,8 +27,6 @@ Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence
 - `npm test` — run frontend test suite (Vitest)
 - `npm run build` — build production frontend assets
 
----
-
 ## Rules
 
 1. **One Task at a Time:** Tasks are GitHub issues ([Issues Tracker](https://github.com/AslanMurzalin/FronProject/issues)). Work on strictly one issue at a time in numerical/dependency order.
@@ -42,14 +36,12 @@ Welcome! This repository houses the **CS2 FACEIT Baiting Analyzer**, an evidence
 5. **Facts vs. Interpretations:** All tactical analysis logic, report schemas, and UI components must strictly separate objective factual events (e.g. death timestamps, distances, zone presence) from tactical interpretations.
 6. **Commit Regularly:** Make focused, conventional commits referencing the issue number (e.g. `feat(parser): add round boundary filter (#14)`).
 
----
-
 ## Core Documents
 
 All detailed specifications live in the `docs/` folder:
 
-- [`docs/process.md`](file:///C:/Users/aslan/PycharmProjects/FronProject/docs/process.md) — How work is organized, task workflow, and testing discipline.
-- [`docs/issue_flow.md`](file:///C:/Users/aslan/PycharmProjects/FronProject/docs/issue_flow.md) — Anatomy of an issue, standard sections (Goal, Acceptance Criteria, Done Means, Out of Scope, Constraints), and verification lifecycle.
-- [`docs/plan.md`](file:///C:/Users/aslan/PycharmProjects/FronProject/docs/plan.md) — Product specification, MVP scope boundaries, and analysis guardrails.
-- [`docs/architecture.md`](file:///C:/Users/aslan/PycharmProjects/FronProject/docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
-- [`docs/tasks.md`](file:///C:/Users/aslan/PycharmProjects/FronProject/docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.
+- [`docs/process.md`](docs/process.md) — How work is organized, task workflow, and testing discipline.
+- [`docs/issue_flow.md`](docs/issue_flow.md) — Anatomy of an issue, standard sections (Goal, Acceptance Criteria, Done Means, Out of Scope, Constraints), and verification lifecycle.
+- [`docs/plan.md`](docs/plan.md) — Product specification, MVP scope boundaries, and analysis guardrails.
+- [`docs/architecture.md`](docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
+- [`docs/tasks.md`](docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.

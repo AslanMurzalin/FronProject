@@ -7,8 +7,6 @@
 
 > Items marked **(proposed)** are my suggested defaults that have not been explicitly confirmed. Everything else was decided in the scope discussion.
 
----
-
 ## 1. Product Overview
 
 The application analyzes a user-uploaded CS2 demo and produces an evidence-based tactical report for **one selected player**.
@@ -24,8 +22,6 @@ The report should help users distinguish potentially selfish behavior from legit
 - Identify uncertainty and explain when important evidence is missing.
 - Keep the MVP focused on T-side analysis on Mirage.
 
----
-
 ## 2. MVP User Flow
 
 1. The user creates an account or signs in.
@@ -40,8 +36,6 @@ The report should help users distinguish potentially selfish behavior from legit
 10. The user can view, export, or delete reports from history.
 
 To analyze a different player, a newer demo version, or to retry a failed analysis, the user uploads the demo again.
-
----
 
 ## 3. MVP Features
 
@@ -208,8 +202,6 @@ Users can:
 - Reports remain in history until the user deletes them or deletes their account.
 - Abandoned uploads and jobs interrupted by a server shutdown are cleaned up by a short-TTL cleanup job (exact TTL open, see §9).
 
----
-
 ## 4. Explicitly Out of Scope for the MVP
 
 - CT-side tactical analysis.
@@ -226,8 +218,6 @@ Users can:
 - Advanced line-of-sight and weapon-state modeling for trade opportunities.
 - A complete multi-factor model of lurk impact.
 - Desktop application development unless later evidence shows it is needed.
-
----
 
 ## 5. Future Backlog
 
@@ -260,8 +250,6 @@ These ideas are deliberately retained for later phases and are **not MVP require
 
 Keep the backlog visible and distinguish features that are **not implemented**, **experimental**, or **validated**. A heuristic should not silently become a firm rule without testing.
 
----
-
 ## 6. Product and Analysis Guardrails
 
 - Never treat a high or low K/D, ADR, death count, or death order as sufficient proof of baiting.
@@ -272,8 +260,6 @@ Keep the backlog visible and distinguish features that are **not implemented**, 
 - Prefer transparent evidence over unsupported certainty.
 - Make the report useful for a human reviewer who will make the final judgment.
 
----
-
 ## 7. Implementation Notes — Non-Binding
 
 - `demoparser2` is a candidate for extracting CS2 demo data.
@@ -283,8 +269,6 @@ Keep the backlog visible and distinguish features that are **not implemented**, 
 - Include cleanup for abandoned uploads or jobs after unexpected server shutdowns.
 - Keep scoring weights, trade thresholds, and execution thresholds in versioned configuration, not hard-coded.
 - Choose queueing, storage, and infrastructure based on implementation needs rather than treating a specific technology as a scope requirement.
-
----
 
 ## 8. MVP Acceptance Checklist
 
@@ -309,8 +293,6 @@ Keep the backlog visible and distinguish features that are **not implemented**, 
 - [ ] Users can delete one report or clear their history.
 - [ ] Each report records the app version, scoring-weights version, and map version.
 
----
-
 ## 9. Open Items
 
 | Item | Notes |
@@ -325,8 +307,6 @@ Keep the backlog visible and distinguish features that are **not implemented**, 
 | Temp-file TTL | How long abandoned uploads live before cleanup |
 | Nav mesh availability and licensing | Verify the file is obtainable and usable before building the zone graph |
 | Nav-to-zone mapping | One-time manual labeling pass plus completeness check |
-
----
 
 ## 10. Decision Log (this discussion)
 
@@ -346,7 +326,5 @@ Keep the backlog visible and distinguish features that are **not implemented**, 
 | Disconnect / bot | Skip those rounds and note it |
 | Round coverage | All T rounds including overtime |
 | Sharing | Private; PDF/JSON export included |
-
----
 
 **Scope rule:** If a feature is not listed as an MVP requirement, treat it as out of scope unless the product scope is deliberately updated.
