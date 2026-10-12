@@ -5,44 +5,78 @@
 **Task Standard:** Each task is sized for a single working session and is independently actionable.
 
 ## 1. Project Scaffolding & Initial Smoke Test
-Goal: Set up the root project structure, Python virtual environment, dependencies configuration, and a passing smoke test.
-Description: This task establishes the backend directory layout (`backend/app`), pins core dependencies in `requirements.txt` / `pyproject.toml` (FastAPI, SQLAlchemy, demoparser2, polars, pydantic, pytest), and configures pytest. It confirms the virtual environment is working properly on the host system.
-Done when:
-- Project directories (`backend/app`, `backend/tests`) and dependency files are created.
-- Virtualenv runs `pytest` successfully on a minimal smoke test asserting environment and library imports.
-- Tests required: `backend/tests/test_smoke.py` asserting Python version, imports, and test runner execution.
+Goal: Establish the root project layout, dependency management, virtual environment configuration, and automated test runner so any contributor or agent can clone and run a passing test suite immediately.
+Acceptance criteria:
+- **Repository & Directory Structure**: `backend/app/` with `__init__.py` and `backend/tests/` with `__init__.py` created.
+- **Dependency Management**: `pyproject.toml` and `requirements.txt` define project metadata and pin core dependencies (`fastapi`, `uvicorn`, `pydantic`, `sqlalchemy`, `demoparser2`, `polars`, `numpy`, `zstandard`, `argon2-cffi`, `slowapi`, `reportlab`, `pytest`, `httpx`). Python version pinned `>=3.12`.
+- **Smoke Verification**: `backend/tests/test_smoke.py` asserts Python runtime compatibility, imports key packages, and validates test runner execution.
+Done means:
+- `pytest` or `uv run pytest` executes `backend/tests/test_smoke.py` and exits with code 0.
+- All core packages import without missing native library errors.
+Out of scope:
+- Database tables (Issue #3), API routes (Issue #4), frontend scaffolding (Issue #32).
+Constraints:
+- Pinned dependencies only; root `.venv/` isolated; references `docs/architecture.md` Section 2.
 
 ## 2. Real-Demo Parser Spike & Event Inspection
-Goal: Parse a real CS2 Mirage demo with `demoparser2` and document the exact event schemas and fields available.
-Description: This task conducts an early spike on a real CS2 `.dem` file to identify the precise tick events, player coordinates, death records with damage/killer causes, grenade throws, bomb plants, and bot takeovers returned by `demoparser2`. The findings will be documented in `docs/parser_spike.md` to guide the data model and test fixtures.
-Done when:
-- A test script parses a real demo and logs raw outputs for player ticks, death events, and utility events.
-- `docs/parser_spike.md` is produced detailing event names, column types, coordinate formats, and bot takeover representations.
-- Tests required: `backend/tests/test_parser_spike.py` verifying raw extraction of ticks, deaths, and grenade events on a sample demo file.
+Goal: Parse a real CS2 Mirage match demo with `demoparser2` and document the exact schema of extracted ticks, deaths, coordinates, utility events, bomb plants, and bot takeovers to ground all subsequent domain models and fixtures in observed reality.
+Acceptance criteria:
+- **Spike Execution**: Standalone test parses a real CS2 Mirage `.dem` file via `demoparser2.parse_ticks` and `demoparser2.parse_events`.
+- **Captured Data**: Field names, types, nullability, and coordinates for player ticks, death causes (world/bomb/fall/teamkill), utility throws/detonations, bomb events, and bot takeovers.
+- **Documentation**: Produce `docs/parser_spike.md` detailing event schemas, column types, and coordinate ranges on Mirage.
+Done means:
+- `docs/parser_spike.md` committed with complete schemas for player positions, deaths, utility, and round events.
+- `backend/tests/test_parser_spike.py` parses demo events, asserts expected columns, and passes cleanly.
+Out of scope:
+- Domain models and dataclass adapters (Issue #10), round filtering (Issue #14), mock fixtures (Issue #11).
+Constraints:
+- Scratch demo files must be unlinked after parsing per Zero-Retention Demo Storage policy (`AGENTS.md` Rule 4); use `demoparser2` exclusively.
 
 ## 3. Database Engine & Relational Schema Setup
-Goal: Configure SQLite with Write-Ahead Logging (WAL) and create SQLAlchemy 2.0 ORM models for all system entities.
-Description: This task configures the SQLite engine with WAL mode, `PRAGMA busy_timeout = 5000;`, and declarative models in `app/db/`. You will define the ORM schemas for `Users`, `Sessions`, `Uploads`, `Jobs`, and `Reports` including UUID primary keys, foreign keys, cascade deletes, and heartbeat timestamps.
-Done when:
-- SQLite connection event listeners apply WAL mode, busy timeout, and foreign keys.
-- ORM models (`User`, `Session`, `Upload`, `Job`, `Report`) are defined with type annotations and indices.
-- Tests required: `backend/tests/test_database.py` verifying tables create cleanly, WAL pragma is active, and cascade deletions work.
+Goal: Initialize the SQLite database engine with Write-Ahead Logging (WAL) and implement SQLAlchemy 2.0 ORM models for Users, Sessions, Uploads, Jobs, and Reports with cascade deletion and heartbeat tracking.
+Acceptance criteria:
+- **Database Engine**: SQLite database at `var/app.db` with `PRAGMA journal_mode = WAL;`, `PRAGMA busy_timeout = 5000;`, `PRAGMA synchronous = NORMAL;`, and `PRAGMA foreign_keys = ON;`.
+- **Models (`app/db/models.py`)**: `User`, `Session`, `Upload`, `Job` (with `heartbeat_at`), and `Report` defined with SQLAlchemy 2.0 type annotations and indices.
+- **Cascade Rules**: Deleting a User cascades to all owned Sessions, Uploads, Jobs, and Reports. Deleting a Job cascades to its produced Report.
+Done means:
+- Database initialization creates all 5 tables in `var/app.db` without errors.
+- Unit tests verify foreign key enforcement, WAL pragma verification, and cascade deletes.
+- Tests required: `backend/tests/test_database.py` covering table creation, WAL verification, and cascade deletes.
+Out of scope:
+- Auth API endpoints (Issue #4), upload file writing (Issue #7), worker queue (Issue #25).
+Constraints:
+- SQLAlchemy 2.0 `DeclarativeBase` with `Mapped` types; SQLite only (WAL mode); references `docs/architecture.md` Section 4.
 
 ## 4. Cookie-Based Session Authentication & Session Hygiene API
-Goal: Implement user registration, Argon2id password hashing, httpOnly session cookies, and session invalidation.
-Description: This task builds `/api/auth/register`, `/api/auth/login`, `/api/auth/logout`, and `/api/auth/me`. Session tokens are stored in the `SESSIONS` table with a configurable `SECURE_COOKIE` flag (disabled in local dev), an Origin header check on state-changing routes, and a query to purge expired sessions.
-Done when:
-- Registration, login, logout, and current user endpoints return correct schemas and manage `SESSIONS` rows.
-- Auth cookies are set with `httpOnly`, `SameSite=Lax`, and configurable `Secure` flag; logout deletes the session row.
-- Tests required: `backend/tests/test_auth.py` testing registration, invalid login, valid login session persistence, logout revocation, and Origin check validation.
+Goal: Provide user registration, secure password hashing with Argon2id, and httpOnly cookie-based session authentication with server-side revocation and CSRF Origin protection.
+Acceptance criteria:
+- **Password Security**: Argon2id hashing via `argon2-cffi`.
+- **Endpoints**: `POST /api/auth/register` (creates user, validates email/password), `POST /api/auth/login` (verifies credentials, sets 7-day `httpOnly`, `SameSite=Lax`, configurable `Secure` cookie named `session_id`, stores SHA-256 hash in `SESSIONS`), `POST /api/auth/logout` (revokes session in DB, clears cookie), `GET /api/auth/me` (returns current user profile).
+- **Session Hygiene**: Origin/Sec-Fetch-Site check on state-changing requests; `purge_expired_sessions(db)` helper.
+Done means:
+- Registration rejects duplicates; valid login sets `httpOnly` cookie and persists hashed token.
+- Logout revokes session in DB so subsequent `/api/auth/me` calls fail with 401; expired sessions return 401.
+- Tests required: `backend/tests/test_auth.py` covering register, invalid login, valid login cookie, `/me`, logout revocation, expired session rejection.
+Out of scope:
+- Email verification / password reset (out of scope per `docs/plan.md`), login rate limiting (Issue #6), account deletion (Issue #5).
+Constraints:
+- Cookie name `session_id`, `httpOnly=True`, `SameSite="lax"`; stateful `SESSIONS` table revocation; references `docs/architecture.md` Section 2 and 8.
 
 ## 5. Account Deletion & Resource Teardown API
-Goal: Implement the `/api/account` endpoint to cancel active jobs, remove user scratch files, and delete all user records.
-Description: This task implements `DELETE /api/account` to remove the authenticated user and all associated sessions, uploads, jobs, and reports. It identifies any running jobs for that user, triggers their cancellation flag, and unlinks all demo scratch files owned by the user.
-Done when:
-- `DELETE /api/account` revokes the user's session, flags active jobs as cancelled, and removes user records.
-- Associated scratch files on disk for the user's uploads are deleted immediately upon account deletion.
-- Tests required: `backend/tests/test_account_deletion.py` verifying full database cascade and file removal on disk.
+Goal: Implement the `DELETE /api/account` endpoint to cancel any active background jobs for the user, unlink their demo scratch files from disk, and permanently delete all user records and history.
+Acceptance criteria:
+- **Endpoint**: `DELETE /api/account` requires valid authenticated session.
+- **Teardown Sequence**: Cancels user's pending/processing jobs with failure message `"Job cancelled due to account deletion"`, unlinks demo files on disk (`scratch_path`, `decompressed_path`), deletes User record (cascading all sessions, uploads, jobs, reports), and clears auth cookie.
+- **Idempotence & Safety**: Missing file unlinking handled gracefully without 500 errors; subsequent requests return 401.
+Done means:
+- Account deletion cancels in-progress jobs and deletes all user-owned files in `var/scratch_demos/`.
+- Deleting the account completely removes user rows, sessions, jobs, and reports from the database.
+- Old auth cookie is cleared and immediately invalidated.
+- Tests required: `backend/tests/test_account_deletion.py` covering authenticated deletion, file unlinking, DB cascade, and post-deletion 401.
+Out of scope:
+- Deleting individual reports or clearing history without deleting account (Issue #29).
+Constraints:
+- Zero-retention guarantee: no demo files belonging to a deleted account linger on disk; references `docs/plan.md` Section 3.1, 3.9, `docs/architecture.md` Section 4, 8.
 
 ## 6. Reverse-Proxy Rate Limiting & User Quotas
 Goal: Integrate IP rate limiting, trusted reverse-proxy headers, active upload limits, and daily analysis quotas.
