@@ -54,6 +54,7 @@ All detailed specifications live in the `docs/` folder:
 - [`docs/plan.md`](docs/plan.md) — Product specification, MVP scope boundaries, and analysis guardrails.
 - [`docs/architecture.md`](docs/architecture.md) — Technical architecture (v2.1), data models, heuristics, scoring formulas, and security limits.
 - [`docs/tasks.md`](docs/tasks.md) — Complete 42-task development backlog mapped to GitHub issues #1 through #42.
+- [`docs/team/planner.md`](docs/team/planner.md) — Technical Planner role: structure backlog into iterative, testable milestones (Core Analyzer -> MVP Backend -> Hardening -> Frontend).
 - [`docs/team/pm.md`](docs/team/pm.md) — Product Manager role: groom raw issues one by one (never all together in bulk) into full issue-flow spec before implementation.
 - [`docs/team/software-engineer.md`](docs/team/software-engineer.md) — Software Engineer role: implement one groomed issue at a time, write tests, commit, leave issue open.
 - [`docs/team/qa.md`](docs/team/qa.md) — QA Engineer role: verify finished work against acceptance criteria, post PASS/FAIL verdict as a comment.
