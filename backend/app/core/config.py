@@ -39,4 +39,10 @@ class Settings(BaseModel):
     SCRATCH_MAX_DIR_BYTES: int = 10 * 1024 * 1024 * 1024         # 10 GB
     UPLOAD_TTL_SECONDS: int = 3600                               # 1 hour
 
+    # Rate Limiting & Quotas
+    FORWARDED_ALLOW_IPS: list[str] = ["127.0.0.1", "testclient"]
+    UPLOAD_RATE_LIMIT: str = "5/minute"
+    CONCURRENT_UPLOAD_LIMIT: int = 1
+    DAILY_ANALYSIS_QUOTA: int = 10
+
 settings = Settings()
